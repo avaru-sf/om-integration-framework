@@ -40,7 +40,7 @@ The framework follows a layered architecture:
 
 ### Class Diagram
 
-[Image: Image.jpg]
+![Class Diagram](assets/OM-IntegrationFramworkUML.svg)
 ### Key Design Principles
 
 * **Interface Segregation**: Separate interfaces (IDataFetcher, IDataValidator, IRequestBodyPreparer) ensure classes implement only necessary methods.

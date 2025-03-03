@@ -1,0 +1,120 @@
+@startuml
+!theme mars
+' Skin parameters for better readability
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam padding 2
+
+' Interfaces
+package "Interfaces" {
+  interface IDataFetcher {
+    +fetchData(orchestrationItemId: String): Map<String, Object>
+  }
+
+  interface IDataValidator {
+    +validateData(data: Map<String, Object>): List<String>
+  }
+
+  interface IRequestBodyPreparer {
+    +prepareRequestBody(data: Map<String, Object>): Map<String, Object>
+  }
+
+  interface Callable {
+    +call(action: String, args: Map<String, Object>): Object
+  }
+}
+
+' Abstract Class
+package "Abstract Class" {
+  abstract class CommonDataFetcher {
+    +{abstract} fetchData(orchestrationItemId: String): Map<String, Object>
+    +fetchCommonData(orchestrationItemId: String): Map<String, Object>
+  }
+}
+
+' Factory Classes
+package "Factory Classes" {
+  class RequestBodyPreparerFactory {
+    +{static} getPreparer(systemType: String): IRequestBodyPreparer
+  }
+
+  class DataFetcherFactory {
+    +{static} getFetcher(systemType: String): IDataFetcher
+  }
+}
+
+' Helper Classes
+package "Helper Classes" {
+  class SystemIntegrationHelper {
+    +{static} generateRequestBody(systemType: String, orchestrationItemId: String): Map<String, Object>
+  }
+}
+
+' Utility Classes
+package "Utility Classes" {
+  class IntegrationProcedureUtility {
+    +call(action: String, args: Map<String, Object>): Object
+  }
+}
+
+' Implementation Classes (e.g., SAP Integration)
+package "Implementation Classes" {
+  class SAPDataFetcher {
+    +fetchData(orchestrationItemId: String): Map<String, Object>
+  }
+
+  class SAPRequestBodyPreparer {
+    +prepareRequestBody(data: Map<String, Object>): Map<String, Object>
+    +validateData(data: Map<String, Object>): List<String>
+  }
+}
+
+' Relationships
+' Interface Implementations
+IDataFetcher <|.. CommonDataFetcher
+CommonDataFetcher <|-- SAPDataFetcher
+IRequestBodyPreparer <|.. SAPRequestBodyPreparer
+IDataValidator <|.. SAPRequestBodyPreparer
+Callable <|.. IntegrationProcedureUtility
+
+' Dependencies and Associations
+DataFetcherFactory --> IDataFetcher : produces
+RequestBodyPreparerFactory --> IRequestBodyPreparer : produces
+SystemIntegrationHelper --> DataFetcherFactory : uses
+SystemIntegrationHelper --> RequestBodyPreparerFactory : uses
+IntegrationProcedureUtility --> SystemIntegrationHelper : delegates to
+SAPDataFetcher --> CommonDataFetcher : calls fetchCommonData()
+
+' Notes for Context
+note right of RequestBodyPreparerFactory
+  Uses SystemIntegrationConfig__mdt
+  to instantiate preparer classes
+end note
+
+note right of DataFetcherFactory
+  Uses SystemIntegrationConfig__mdt
+  to instantiate fetcher classes
+end note
+
+note right of SystemIntegrationHelper
+  Orchestrates:
+  1. Fetch data via IDataFetcher
+  2. Validate via IDataValidator (if applicable)
+  3. Prepare request via IRequestBodyPreparer
+end note
+
+note right of IntegrationProcedureUtility
+  Entry point for integration procedure,
+  leverages SystemIntegrationHelper
+end note
+
+note right of SAPDataFetcher
+  Extends CommonDataFetcher,
+  customizes data fetching for SAP
+end note
+
+note right of SAPRequestBodyPreparer
+  Prepares SAP-specific request body,
+  validates data as needed
+end note
+@enduml
