@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+	<types>
+		<members>CommonDataFetcher</members>
+		<members>DataFetcherFactory</members>
+		<members>IDataFetcher</members>
+		<members>IDataValidator</members>
+		<members>IRequestBodyPreparer</members>
+		<members>IntegrationProcedureUtility</members>
+		<members>RequestBodyPreparerFactory</members>
+		<members>SystemIntegrationHelper</members>
+		<members>SAPDataFetcher</members>
+		<members>SAPRequestBodyPreparer</members>
+		<name>ApexClass</name>
+	</types>
+	<types>
+		<members>SystemIntegrationConfig__mdt.DataFetcherClassName__c</members>
+		<members>SystemIntegrationConfig__mdt.RequestBodyPreparerClassName__c</members>
+		<members>SystemIntegrationConfig__mdt.SystemType__c</members>
+		<name>CustomField</name>
+	</types>
+	<types>
+		<members>SystemIntegrationConfig.SAP_Order_Creation</members>
+		<name>CustomMetadata</name>
+	</types>
+	<types>
+		<members>SystemIntegrationConfig__mdt</members>
+		<name>CustomObject</name>
+	</types>
+	<types>
+		<members>SystemIntegrationConfig__mdt-System Integration Config Layout</members>
+		<name>Layout</name>
+	</types>
+	<version>62.0</version>
+</Package>
